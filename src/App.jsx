@@ -17,6 +17,7 @@ const App = () => {
     cookieDomain: window.location.hostname,
     cookieSecure: window.location.protocol === "https:",
   });
+
   return (
     <AuthProvider store={store}>
       <Router>

@@ -4,8 +4,11 @@ import { Button, TextField, Container, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
+import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 
 const LoginForm = () => {
+  const isAuthenticated = useIsAuthenticated();
+  console.log("aaaaaaaaaaaaaa", isAuthenticated);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const signIn = useSignIn();
@@ -15,7 +18,7 @@ const LoginForm = () => {
     try {
       const response = await axios
         .create({
-          baseURL: "https://dev.dikahadir.com/flowapi",
+          baseURL: "http://localhost:7000/flowapi",
           responseType: "json",
         })
         .post("/login", {
@@ -30,7 +33,7 @@ const LoginForm = () => {
           auth: {
             token: data.Token,
           },
-          userState: { username: data.data.username },
+          userState: { ...data.data },
         });
         navigate("/dashboard");
       } else {
