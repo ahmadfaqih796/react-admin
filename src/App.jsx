@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
 import AuthProvider from "react-auth-kit";
 import createStore from "react-auth-kit/createStore";
+import ChatPage from "./pages/ChatPage";
 
 const App = () => {
   const store = createStore({
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route element={<AuthOutlet fallbackPath="/login?redirect=true" />}>
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/chat" element={<ChatPage />} />
           </Route>
         </Routes>
       </Router>

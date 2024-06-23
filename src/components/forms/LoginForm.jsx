@@ -18,23 +18,13 @@ const LoginForm = () => {
   const handleLogin = async () => {
     try {
       const service = new AuthService();
-      // const response = await axios
-      //   .create({
-      //     baseURL: "http://localhost:3030",
-      //     responseType: "json",
-      //   })
-      //   .post("/authentication", {
-      //     strategy: "local",
-      //     email: username,
-      //     password,
-      //   });
       const response = await service.login({
         strategy: "local",
         email: username,
         password,
       });
-      const { data } = response;
-      console.log("sssssssssssss", response);
+
+      console.log("login response", response);
 
       if (response) {
         signIn({
@@ -43,7 +33,7 @@ const LoginForm = () => {
           },
           userState: { ...response.user },
         });
-        navigate("/dashboard");
+        navigate("/chat");
       } else {
         console.error("Sign-in failed");
       }
