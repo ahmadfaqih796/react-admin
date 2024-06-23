@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+import AuthService from "../../services/AuthService";
 
 const LoginForm = () => {
   const isAuthenticated = useIsAuthenticated();
@@ -16,24 +17,31 @@ const LoginForm = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios
-        .create({
-          baseURL: "http://localhost:7000/flowapi",
-          responseType: "json",
-        })
-        .post("/login", {
-          username,
-          password,
-        });
+      const service = new AuthService();
+      // const response = await axios
+      //   .create({
+      //     baseURL: "http://localhost:3030",
+      //     responseType: "json",
+      //   })
+      //   .post("/authentication", {
+      //     strategy: "local",
+      //     email: username,
+      //     password,
+      //   });
+      const response = await service.login({
+        strategy: "local",
+        email: username,
+        password,
+      });
       const { data } = response;
-      console.log("sssssssssssss", data);
+      console.log("sssssssssssss", response);
 
-      if (data) {
+      if (response) {
         signIn({
           auth: {
-            token: data.Token,
+            token: response.accessToken,
           },
-          userState: { ...data.data },
+          userState: { ...response.user },
         });
         navigate("/dashboard");
       } else {
